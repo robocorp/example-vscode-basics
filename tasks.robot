@@ -22,13 +22,18 @@ Library           RPA.Browser.Selenium
 Task Teardown     Close All Browsers
 
 *** Keywords ***
+Accept Google Consent
+    Click Element    xpath://button/div[contains(text(), 'I agree')]
+
+*** Keywords ***
 Find Image
     Open Available Browser    https://images.google.com
+    Run Keyword And Ignore Error    Accept Google Consent
     Input Text    name:q    cute puppy
     Submit Form    # this is a 'selector' for targeting elements!
-    ${FIRST_IMAGE}=    Set Variable    css:div[data-ri=\"0\"]
-    Wait Until Element Is Visible    ${FIRST_IMAGE}
-    Screenshot    ${FIRST_IMAGE}    filename=%{ROBOT_ROOT}${/}output${/}image_from_google.png
+    ${first_image}=    Set Variable    css:div[data-ri=\"0\"]
+    Wait Until Element Is Visible    ${first_image}
+    Screenshot    ${first_image}    filename=%{ROBOT_ROOT}${/}output${/}image_from_google.png
 
 *** Tasks ***
 Find an Image from Google Images
