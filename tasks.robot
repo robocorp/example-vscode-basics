@@ -1,3 +1,4 @@
+*** Comments ***
 # ********************************************************************************
 # ****=========*========*========*========*========*========*========*========****
 # **** WELCOME TO ROBOCORP'S ‘ONE-FILE’ TUTORIAL ON BUILDING ROBOTS IN VS CODE! ****
@@ -16,24 +17,14 @@
 # you're confused by anything you see here we've got a great set of documentation over
 # at https://robocorp.com/docs. There's even a beginner's course!
 
+
 *** Settings ***
-Documentation     Finds a cute puppy from Google
-Library           RPA.Browser.Selenium
-Task Teardown     Close All Browsers
+Documentation       Finds a cute puppy from Google
 
-*** Keywords ***
-Accept Google Consent
-    Click Element    xpath://button/div[contains(text(), 'I agree')]
+Library             RPA.Browser.Selenium
 
-*** Keywords ***
-Find Image
-    Open Available Browser    https://images.google.com
-    Run Keyword And Ignore Error    Accept Google Consent
-    Input Text    name:q    cute puppy
-    Submit Form    # this is a 'selector' for targeting elements!
-    ${first_image}=    Set Variable    css:div[data-ri=\"0\"]
-    Wait Until Element Is Visible    ${first_image}
-    Screenshot    ${first_image}    filename=%{ROBOT_ROOT}${/}output${/}image_from_google.png
+Task Teardown       Close All Browsers
+
 
 *** Tasks ***
 Find an Image from Google Images
@@ -76,3 +67,17 @@ Find an Image from Google Images
 # own bot! We suggest the 'Standard' template for small bots like this, the 'Extended' template
 # for a pre-defined possible large-scale robot architecture and the 'Python' template if you want
 # to write your robots in Python! Good luck!
+
+
+*** Keywords ***
+Accept Google Consent
+    Click Element    xpath://button/div[contains(text(), 'Accept all')]
+
+Find Image
+    Open Available Browser    https://images.google.com
+    Run Keyword And Ignore Error    Accept Google Consent
+    Input Text    name:q    cute puppy
+    Submit Form    # this is a 'selector' for targeting elements!
+    ${first_image}=    Set Variable    css:div[data-ri=\"0\"]
+    Wait Until Element Is Visible    ${first_image}
+    Screenshot    ${first_image}    filename=%{ROBOT_ROOT}${/}output${/}image_from_google.png
